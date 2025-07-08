@@ -13,6 +13,7 @@ function addPlayer() {
     li.textContent = name;
     document.getElementById("playerList").appendChild(li);
     input.value = "";
+    document.getElementById("confirmation").textContent = `${name} a été ajouté ✅`;
   } else {
     alert("Nom vide ou déjà utilisé !");
   }
@@ -21,6 +22,7 @@ function addPlayer() {
 function startDisappearanceQuestion() {
   jungleSound.play();
   document.getElementById("registration").style.display = "none";
+  document.getElementById("confirmation").textContent = "";
   document.getElementById("disappearanceQuestion").style.display = "block";
 }
 
@@ -35,16 +37,29 @@ function confirmDisappearance(hasDisappeared) {
 }
 
 function updateDisappearanceDropdown() {
-  const select = document.getElementById("disappearedSelect");
-  select.innerHTML = players.map(p => `<option value="${p}">${p}</option>`).join("");
+  const container = document.getElementById("disappearedList");
+  container.innerHTML = players.map(p => `
+    <label style="display:block; margin:5px 0;">
+      <input type="checkbox" value="${p}"> ${p}
+    </label>
+  `).join("");
 }
 
+
 function eliminateDisappeared() {
-  const chosen = document.getElementById("disappearedSelect").value;
-  players = players.filter(p => p !== chosen);
+  const checkboxes = document.querySelectorAll('#disappearedList input[type="checkbox"]:checked');
+  const selected = Array.from(checkboxes).map(cb => cb.value);
+
+  if (selected.length === 0) {
+    alert("Sélectionne au moins un naufragé.");
+    return;
+  }
+
+  players = players.filter(p => !selected.includes(p));
   document.getElementById("disappearance").style.display = "none";
   startVoting();
 }
+
 
 function startVoting() {
   jungleSound.play();
@@ -60,10 +75,8 @@ function nextVote() {
     showResults();
     return;
   }
-
   const voter = players[currentVoterIndex];
   document.getElementById("currentVoterInfo").textContent = `${voter} vote`;
-
   const voteSelect = document.getElementById("voteSelect");
   voteSelect.innerHTML = '<option value="" disabled selected>Choisis qui éliminer</option>' +
     players.filter(p => p !== voter).map(p => `<option value="${p}">${p}</option>`).join("");
@@ -91,7 +104,6 @@ function showResults() {
     }
   }
   document.getElementById("resultText").innerHTML = `<span class="eliminated-name">${eliminated}</span> a été éliminé !`;
-
 }
 
 function showRescue() {
@@ -120,5 +132,6 @@ function restartGame() {
   document.querySelectorAll("section").forEach(s => s.style.display = "none");
   document.getElementById("playerList").innerHTML = "";
   document.getElementById("playerName").value = "";
+  document.getElementById("confirmation").textContent = "";
   document.getElementById("registration").style.display = "block";
 }

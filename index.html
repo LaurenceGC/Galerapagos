@@ -28,11 +28,12 @@
     </div>
   </section>
 
-  <section id="disappearance" style="display:none;">
-    <h2>Sélectionner le naufragé disparu 🐊</h2>
-    <select id="disappearedSelect"></select>
-    <button onclick="eliminateDisappeared()">Éliminer</button>
-  </section>
+<section id="disappearance" style="display:none;">
+  <h2>Sélectionne les naufragés disparus 🐊</h2>
+  <div id="disappearedList"></div>
+  <button onclick="eliminateDisappeared()">Éliminer</button>
+</section>
+
 
   <section id="votePhase" style="display:none;">
     <h2>Vote des survivants</h2>
@@ -49,9 +50,8 @@
 
   <section id="rescuePhase" style="display:none;">
     <h2>Sauvetage en cours 🌊</h2>
-<p id="rescuedName" class="eliminated-name1"></p>
-<p class="rescue-question">A-t-il réussi à sauver sa peau ?</p>
-
+    <p id="rescuedName" class="eliminated-name"></p>
+    <p class="rescue-question">A-t-il réussi à sauver sa peau ?</p>
     <div class="button-row">
       <button onclick="rescueDecision(true)">Oui</button>
       <button onclick="rescueDecision(false)">Non</button>

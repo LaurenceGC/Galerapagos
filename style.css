@@ -11,6 +11,7 @@ body {
   margin: 2em auto;
   padding: 2em;
   max-width: 750px;
+  width: 90%;
   border-radius: 12px;
   box-shadow: 0 0 15px #004d00;
 }
@@ -21,19 +22,19 @@ input, select {
   border-radius: 6px;
   border: none;
   display: block;
-  width: 80%;
+  width: 90%;
 }
 
 button {
   display: block;
   margin: 10px auto;
-  padding: 15px 25px;
+  padding: 1em;
   background-color: #2e8b57;
   color: white;
   cursor: pointer;
   border-radius: 6px;
   font-size: 1.1em;
-  width: 80%;
+  width: 90%;
 }
 
 .button-row {
@@ -86,11 +87,43 @@ ul {
   margin-top: 10px;
 }
 
-.eliminated-name1 {
-  display: block;
-  font-size: 1.2em;
-  color: #ff4444;
-  text-align: center;
-  margin: 20px 0;
-  font-weight: bold;
+@media screen and (max-width: 480px) {
+  #game {
+    padding: 1.5em;
+  }
+
+  h1 {
+    font-size: 1.6em;
+  }
+
+  h2 {
+    font-size: 1.4em;
+  }
+
+  h3#currentVoterInfo {
+    font-size: 1.5em;
+  }
+
+  .eliminated-name {
+    font-size: 2em;
+  }
+
+  .button-row button {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+  }
+}
+
+
+#disappearedList label {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5em;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+#disappearedList input[type="checkbox"] {
+  margin-right: 10px;
 }
