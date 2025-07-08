@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Trebuchet MS', sans-serif;
+  color: #fff;
+}
+
+#game {
+  background-color: rgba(0, 0, 0, 0.65);
+  margin: 2em auto;
+  padding: 2em;
+  max-width: 750px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #004d00;
+}
+
+input, select {
+  padding: 10px;
+  margin: 5px auto;
+  border-radius: 6px;
+  border: none;
+  display: block;
+  width: 80%;
+}
+
+button {
+  display: block;
+  margin: 10px auto;
+  padding: 15px 25px;
+  background-color: #2e8b57;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1.1em;
+  width: 80%;
+}
+
+.button-row {
+  text-align: center;
+}
+
+.button-row button {
+  display: inline-block;
+  margin: 10px;
+  width: 40%;
+}
+
+h1, h2 {
+  text-align: center;
+  text-shadow: 2px 2px 5px #000;
+}
+
+h3#currentVoterInfo {
+  font-size: 2em;
+  font-weight: bold;
+  color: #00ffcc;
+  text-align: center;
+  margin: 20px 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.eliminated-name {
+  display: block;
+  font-size: 2.5em;
+  color: #ff4444;
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+.confirmation-text {
+  text-align: center;
+  color: #66ff99;
+  font-size: 1em;
+  margin-top: 5px;
+}
+
+.rescue-question {
+  text-align: center;
+  font-size: 1.4em;
+  margin-top: 10px;
+}
+
+.eliminated-name1 {
+  display: block;
+  font-size: 1.2em;
+  color: #ff4444;
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+}
