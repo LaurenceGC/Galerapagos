@@ -11,15 +11,22 @@
 <div id="game">
   <h1>Vote Galèrapagos 🐍🏝️</h1>
 
+  <!-- 🧭 Étape 1 : Inscription -->
   <section id="registration">
     <h2>Inscription des naufragés</h2>
     <input type="text" id="playerName" placeholder="Nom du naufragé">
     <button onclick="addPlayer()">Ajouter</button>
     <ul id="playerList"></ul>
     <p id="confirmation" class="confirmation-text"></p>
+
+    <label style="display:block; margin-top:15px;">
+      <input type="checkbox" id="ghostMode"> Jouer avec l’option <strong>La voix des morts</strong> 💀
+    </label>
+
     <button onclick="startDisappearanceQuestion()">Commencer le vote</button>
   </section>
 
+  <!-- 🌊 Étape 2 : Question disparition -->
   <section id="disappearanceQuestion" style="display:none;">
     <h2>Des naufragés ont-ils disparu ? 🧭</h2>
     <div class="button-row">
@@ -28,13 +35,53 @@
     </div>
   </section>
 
-<section id="disappearance" style="display:none;">
-  <h2>Sélectionne les naufragés disparus 🐊</h2>
-  <div id="disappearedList"></div>
-  <button onclick="eliminateDisappeared()">Éliminer</button>
-</section>
+  <!-- 🐊 Étape 3 : Sélection des disparus -->
+  <section id="disappearance" style="display:none;">
+    <h2>Sélectionne les naufragés disparus 🐊</h2>
+    <div id="disappearedList"></div>
+    <button onclick="eliminateDisappeared()">Éliminer</button>
+  </section>
 
+  <!-- ✨ Étape 4 : Cartes spéciales -->
+  <section id="specialCards" style="display:none;">
+    <h2>Cartes spéciales ✨</h2>
 
+    <!-- 🐚 Conque -->
+    <div id="conchQuestion">
+      <p>Quelqu’un possède-t-il la conque ? 🐚</p>
+      <div class="button-row">
+        <button onclick="hasConch(true)">Oui</button>
+        <button onclick="hasConch(false)">Non</button>
+      </div>
+    </div>
+
+    <div id="conchSelectContainer" style="display:none; margin-top:1em;">
+      <p>Choisir le porteur de la conque :</p>
+      <select id="conchSelect">
+        <option disabled selected>Choisir un joueur vivant</option>
+      </select>
+      <button onclick="confirmSpecialCards()">Valider</button>
+    </div>
+
+    <!-- 🪓 Gourdin -->
+    <div id="clubQuestion" style="display:none; margin-top:2em;">
+      <p>Quelqu’un possède-t-il le gourdin ? 🪓</p>
+      <div class="button-row">
+        <button onclick="hasClub(true)">Oui</button>
+        <button onclick="hasClub(false)">Non</button>
+      </div>
+    </div>
+
+    <div id="clubSelectContainer" style="display:none; margin-top:1em;">
+      <p>Choisir le porteur du gourdin :</p>
+      <select id="clubSelect">
+        <option disabled selected>Choisir un joueur vivant</option>
+      </select>
+      <button onclick="confirmClub()">Valider et passer au vote</button>
+    </div>
+  </section>
+
+  <!-- 🗳️ Étape 5 : Vote -->
   <section id="votePhase" style="display:none;">
     <h2>Vote des survivants</h2>
     <h3 id="currentVoterInfo"></h3>
@@ -42,12 +89,14 @@
     <button onclick="submitVote()">Voter</button>
   </section>
 
+  <!-- 🔥 Étape 6 : Résultats -->
   <section id="revealResults" style="display:none;">
     <h2>Résultats du vote 🔥</h2>
     <div id="resultText"></div>
     <button onclick="showRescue()">Phase de sauvetage</button>
   </section>
 
+  <!-- 🦺 Étape 7 : Sauvetage -->
   <section id="rescuePhase" style="display:none;">
     <h2>Sauvetage en cours 🌊</h2>
     <p id="rescuedName" class="eliminated-name"></p>
@@ -58,6 +107,7 @@
     </div>
   </section>
 
+  <!-- 🌅 Fin -->
   <section id="restartPhase" style="display:none;">
     <h2>Le jeu est terminé ! 🌅</h2>
     <button onclick="restartGame()">Relancer une partie</button>

@@ -87,6 +87,18 @@ ul {
   margin-top: 10px;
 }
 
+#disappearedList label {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5em;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+#disappearedList input[type="checkbox"] {
+  margin-right: 10px;
+}
+
 @media screen and (max-width: 480px) {
   #game {
     padding: 1.5em;
@@ -113,17 +125,4 @@ ul {
     width: 90%;
     margin: 10px auto;
   }
-}
-
-
-#disappearedList label {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 0.5em;
-  border-radius: 6px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  font-size: 1.1em;
-}
-#disappearedList input[type="checkbox"] {
-  margin-right: 10px;
 }
