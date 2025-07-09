@@ -1,3 +1,24 @@
+let onlineMode = false;
+let gameRoom = "";
+
+function setNetworkMode(isOnline) {
+  onlineMode = isOnline;
+  document.getElementById("networkQuestion").style.display = "none";
+
+  if (onlineMode) {
+    gameRoom = prompt("Nom de la salle (ex: naufrage23)").trim();
+    if (!gameRoom) {
+      alert("Veuillez entrer un nom de salle.");
+      return;
+    }
+    alert(`🛖 Salle "${gameRoom}" créée. Tous les joueurs doivent entrer ce nom pour rejoindre.`);
+  }
+
+  document.getElementById("registration").style.display = "block";
+}
+
+
+
 let players = [];
 let votes = {};
 let voteDetails = [];
@@ -15,7 +36,13 @@ function addPlayer() {
   const input = document.getElementById("playerName");
   const name = input.value.trim();
   if (name && !players.includes(name)) {
-    players.push(name);
+    if (onlineMode) {
+  const path = `players/${gameRoom}/${name}`;
+  firebase.database().ref(path).set({ alive: true });
+} else {
+  players.push(name);
+}
+
     const li = document.createElement("li");
     li.textContent = name;
     document.getElementById("playerList").appendChild(li);
@@ -24,6 +51,12 @@ function addPlayer() {
   } else {
     alert("Nom vide ou déjà utilisé !");
   }
+  const refPath = onlineMode ? `players/${gameRoom}` : `players`;
+firebase.database().ref(refPath).on("value", snapshot => {
+  const data = snapshot.val();
+  // ...affiche la liste
+});
+
 }
 
 function startDisappearanceQuestion() {
