@@ -1,5 +1,6 @@
 let players = [];
 let votes = {};
+let voteDetails = [];
 let eliminated = "";
 let eliminatedPlayers = [];
 let currentVoterIndex = 0;
@@ -126,7 +127,9 @@ function confirmClub() {
 function startVoting() {
   jungleSound.play();
   votes = {};
+  voteDetails = [];
   currentVoterIndex = 0;
+  document.querySelector("button[onclick='showRescue()']").style.display = "none";
   document.getElementById("votePhase").style.display = "block";
   nextVote();
 }
@@ -178,6 +181,8 @@ function submitVote() {
     alert("Choisis un joueur à éliminer.");
     return;
   }
+  const voterName = document.getElementById("currentVoterInfo").textContent.split(" ")[0];
+  voteDetails.push(`${voterName} → ${voted}`);
   votes[voted] = (votes[voted] || 0) + 1;
   nextVote();
 }
@@ -185,15 +190,52 @@ function submitVote() {
 function showResults() {
   jungleSound.play();
   document.getElementById("revealResults").style.display = "block";
+
   let max = 0;
+  let maxPlayers = [];
+
   for (const p in votes) {
     if (votes[p] > max) {
       max = votes[p];
-      eliminated = p;
+      maxPlayers = [p];
+    } else if (votes[p] === max) {
+      maxPlayers.push(p);
     }
   }
+
+  // ⚖️ Cas d'égalité
+  if (maxPlayers.length > 1) {
+    document.getElementById("resultText").innerHTML =
+      `<p>⚖️ <strong>Égalité entre :</strong> ${maxPlayers.join(", ")}</p>` +
+      `<p>📣 <strong>Égalité, vous devez revoter</strong></p>`;
+
+    // ⛔ Empêcher l'accès au sauvetage
+    document.querySelector("button[onclick='showRescue()']").style.display = "none";
+
+    // 🔄 Réinitialisation du vote
+    votes = {};
+    voteDetails = [];
+    currentVoterIndex = 0;
+
+    // 🕐 Pause pour afficher le message d’égalité
+    setTimeout(() => {
+      document.getElementById("revealResults").style.display = "none";
+      startVoting(); // 🔁 Relance un vote avec tous les joueurs vivants
+    }, 2500);
+
+    return;
+  }
+
+  // ✅ Cas avec élimination unique
+  eliminated = maxPlayers[0];
   document.getElementById("resultText").innerHTML =
-    `<span class="eliminated-name">${eliminated}</span> a été éliminé !`;
+    `<span class="eliminated-name">${eliminated}</span> a été éliminé !` +
+    `<h3>🗂️ Détail des votes :</h3><ul>` +
+    voteDetails.map(v => `<li>${v}</li>`).join("") +
+    `</ul>`;
+
+  // ✅ Autoriser l’accès à la phase de sauvetage
+  document.querySelector("button[onclick='showRescue()']").style.display = "inline-block";
 }
 
 function showRescue() {
@@ -221,6 +263,7 @@ function rescueDecision(choice) {
 function restartGame() {
   players = [];
   votes = {};
+  voteDetails = [];
   eliminated = "";
   eliminatedPlayers = [];
   currentVoterIndex = 0;
