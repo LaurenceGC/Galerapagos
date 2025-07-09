@@ -1,24 +1,20 @@
+// Configuration Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyAt3hxoXba8wqD7X7p1WDlC_YTIm_VUVog",
+  authDomain: "votes-galerapagos.firebaseapp.com",
+  databaseURL: "https://votes-galerapagos-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "votes-galerapagos",
+  storageBucket: "votes-galerapagos.appspot.com",
+  messagingSenderId: "583997438955",
+  appId: "1:583997438955:web:1aa922ecc997f3da1877ae"
+};
+
+// Initialisation Firebase
+firebase.initializeApp(firebaseConfig);
+
+
 let onlineMode = false;
 let gameRoom = "";
-
-function setNetworkMode(isOnline) {
-  onlineMode = isOnline;
-  document.getElementById("networkQuestion").style.display = "none";
-
-  if (onlineMode) {
-    gameRoom = prompt("Nom de la salle (ex: naufrage23)").trim();
-    if (!gameRoom) {
-      alert("Veuillez entrer un nom de salle.");
-      return;
-    }
-    alert(`🛖 Salle "${gameRoom}" créée. Tous les joueurs doivent entrer ce nom pour rejoindre.`);
-  }
-
-  document.getElementById("registration").style.display = "block";
-}
-
-
-
 let players = [];
 let votes = {};
 let voteDetails = [];
@@ -30,7 +26,39 @@ let conchHolder = null;
 let clubHolder = null;
 let clubVotedOnce = false;
 
+
 const jungleSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-jungle-ambience-ambients-113.mp3");
+
+function setNetworkMode(isOnline) {
+  onlineMode = isOnline;
+  document.getElementById("networkQuestion").style.display = "none";
+
+  if (onlineMode) {
+    gameRoom = prompt("Nom de la salle (ex: naufrage23)").trim();
+    if (!gameRoom) {
+      alert("Veuillez entrer un nom de salle.");
+      return;
+    }
+    alert(`🛖 Salle "${gameRoom}" créée ! Tous les joueurs doivent entrer ce nom.`);
+
+    const refPath = `players/${gameRoom}`;
+    firebase.database().ref(refPath).on("value", snapshot => {
+      const data = snapshot.val();
+      const list = document.getElementById("playerList");
+      list.innerHTML = "";
+      if (data) {
+        players = Object.keys(data);
+        players.forEach(name => {
+          const li = document.createElement("li");
+          li.textContent = name;
+          list.appendChild(li);
+        });
+      }
+    });
+  } else {
+    document.getElementById("registration").style.display = "block";
+  }
+}
 
 function addPlayer() {
   const input = document.getElementById("playerName");
@@ -43,9 +71,9 @@ function addPlayer() {
   players.push(name);
 }
 
-    const li = document.createElement("li");
-    li.textContent = name;
-    document.getElementById("playerList").appendChild(li);
+    input.value = "";
+document.getElementById("confirmation").textContent = `${name} a été ajouté ✅`;
+
     input.value = "";
     document.getElementById("confirmation").textContent = `${name} a été ajouté ✅`;
   } else {
